@@ -1,70 +1,51 @@
-# PPT Prompt Lab
+# PPT Prompt Lab v1.2
 
-一个无需后端、无需 API Key 的 PPT 提示词生成器 MVP。
+在线仓库目标地址：`https://y82497644-eng.github.io/PPT-Prompt-Lab/`
 
-## 当前功能
+v1.2 把产品从“PPT 提示词生成器”升级为“高颜值 + 真可编辑 PPT 工作流入口”。
 
-- 选择使用场景
-- 输入主题、目标、受众、视觉风格
-- 生成完整版 / 精简版 PPT 提示词
-- 一键复制
-- 内置 3 个示例
-- 响应式设计，可直接部署到 GitHub Pages
+## v1.2 新增
+
+- 首页定位改为：高颜值 + 真可编辑
+- 三种创作入口：主题创作 / 文档转 PPT / 旧 PPT 改版
+- 可编辑输出要求：文字、图表、模块、禁止整页截图
+- 生成完整制作指令 / 精简制作指令
+- 可编辑 PPT 路线导航：Google Slides + Gemini / PPT Master / Oh My PPT
+- PPT Skills：Dashi PPT Skill / Slides Skill Pack / slide-skill
+- 自动把当前 brief 转成 Codex / Claude Code / Cursor 的 Agent 指令
+- “可编辑性三项验收”：文字、图表、模块
+- 明确说明本站当前不直接托管大模型和第三方 Skill
 
 ## 本地运行
 
-直接双击 `index.html` 即可打开。
-
-也可以使用任意静态服务器，例如：
+直接打开 `index.html`，或：
 
 ```bash
 python -m http.server 8000
 ```
 
-然后访问：
+## 部署到现有 GitHub Pages
 
-```text
-http://localhost:8000
-```
+覆盖仓库根目录中的：
 
-## GitHub Pages 部署
+- `index.html`
+- `style.css`
+- `app.js`
+- `README.md`
 
-1. 在 GitHub 新建一个公开仓库，例如 `ppt-prompt-lab`
-2. 上传本目录中的：
-   - `index.html`
-   - `style.css`
-   - `app.js`
-3. 进入仓库 `Settings`
-4. 打开 `Pages`
-5. 在 `Build and deployment` 中选择：
-   - Source: `Deploy from a branch`
-   - Branch: `main`
-   - Folder: `/ (root)`
-6. 保存后，GitHub 会生成公网访问地址
+`.gitignore` 可以保留不动。
 
-## MVP 验证目标
+提交后 GitHub Pages 会自动重新部署，公网 URL 不变。
 
-第一阶段不要急着接大模型 API，也不要先做登录、支付和复杂后台。
+## 当前产品边界
 
-先验证：
-- 是否有人愿意用
-- 哪类 PPT 场景使用最多
-- 用户生成后是否会复制
-- 用户愿不愿意为高质量模板或高级版本付费
+v1.2 仍是静态 MVP，不直接解析 PDF / DOCX / PPTX，不直接调用模型生成 PPTX。上传文件控件只记录文件名并写进 Agent 指令。
 
-建议首批指标：
-- 20 个真实用户
-- 5 个用户访谈
-- 记录至少 10 次真实使用反馈
-- 测试 3 次付费意愿
+下一阶段只有在真实用户验证后才考虑：
 
-## 下一阶段候选
-
-只有当第一阶段出现真实使用后，再考虑：
-- AI 自动扩写
-- 行业模板库
-- 账号系统
-- 收藏历史
-- 付费模板
-- 小红书渠道落地页
-- 数据统计
+- 文件解析
+- 大模型 API
+- 直接生成 PPTX
+- 用户账号
+- 历史记录
+- 支付 / 模板商店

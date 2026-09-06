@@ -3,35 +3,86 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="PPT Prompt Lab - 快速生成可直接用于AI制作PPT的高质量提示词" />
-  <title>PPT Prompt Lab</title>
+  <meta name="description" content="PPT Prompt Lab - 从需求到高颜值、可编辑 PPT 工作流" />
+  <title>PPT Prompt Lab · 高颜值可编辑 PPT 工作流</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="page-shell">
-    <header class="hero">
-      <div class="brand-row">
-        <div class="brand-mark">P</div>
-        <div>
-          <div class="eyebrow">PPT PROMPT LAB</div>
-          <h1>把模糊需求，变成可直接交给 AI 的 PPT 提示词。</h1>
+    <nav class="topbar">
+      <a class="nav-brand" href="#top"><span>P</span><b>PPT Prompt Lab</b></a>
+      <div class="nav-links">
+        <a href="#generator">生成方案</a>
+        <a href="#routes">可编辑路线</a>
+        <a href="#skills">PPT Skills</a>
+        <a href="#qa">验收标准</a>
+      </div>
+    </nav>
+
+    <header class="hero" id="top">
+      <div class="hero-copy-wrap">
+        <div class="eyebrow">AI PPT WORKFLOW · MVP v1.2</div>
+        <h1>高颜值 + 真可编辑，才叫 AI PPT。</h1>
+        <p class="hero-copy">
+          不再只生成一段 Prompt。把主题、资料、受众、风格和“可编辑”要求整理成完整制作方案，
+          再交给 Gemini、Codex / Claude Code 或本地开源工具继续生成真正可返工的 PPTX。
+        </p>
+        <div class="hero-actions">
+          <a class="hero-primary" href="#generator">立即生成制作方案</a>
+          <a class="hero-secondary" href="#routes">我想直接做可编辑 PPT</a>
+        </div>
+        <div class="hero-proof">
+          <span>✓ 结构先于排版</span>
+          <span>✓ 强制可编辑要求</span>
+          <span>✓ 交付前逐页 QA</span>
         </div>
       </div>
-      <p class="hero-copy">
-        适合课程汇报、商业路演、竞赛答辩、工作总结与方案提案。
-        无需注册，不调用外部 API，填写需求即可生成。
-      </p>
+
+      <div class="slide-demo" aria-label="editable slide preview">
+        <div class="demo-toolbar">
+          <span></span><span></span><span></span>
+          <b>EDITABLE DECK</b>
+        </div>
+        <div class="demo-slide">
+          <aside>
+            <small>EXECUTIVE</small>
+            <strong>AI PPT<br/>Workflow</strong>
+            <em>01 / 04</em>
+          </aside>
+          <div class="demo-content">
+            <div class="demo-kicker">HIGH-QUALITY · EDITABLE</div>
+            <h2>不是“生成一张图”，而是生成还能继续改的演示文稿。</h2>
+            <div class="demo-metrics">
+              <div><b>Text</b><span>可直接改</span></div>
+              <div><b>Chart</b><span>数据可改</span></div>
+              <div><b>Block</b><span>模块可移动</span></div>
+            </div>
+            <div class="demo-bars"><i></i><i></i><i></i><i></i></div>
+          </div>
+        </div>
+      </div>
     </header>
 
-    <main class="workspace">
+    <section class="editability-strip">
+      <div><b>01</b><span>先确认内容主线</span></div>
+      <div><b>02</b><span>再锁定视觉风格</span></div>
+      <div><b>03</b><span>生成原生可编辑结构</span></div>
+      <div><b>04</b><span>最后做 3 项可编辑性验收</span></div>
+    </section>
+
+    <main class="workspace" id="generator">
       <section class="panel form-panel">
         <div class="section-head">
-          <div>
-            <span class="step">01</span>
-            <h2>输入你的 PPT 需求</h2>
-          </div>
+          <div><span class="step">01</span><h2>输入 PPT 需求</h2></div>
           <button id="resetBtn" class="text-button" type="button">清空</button>
         </div>
+
+        <div class="source-tabs" role="tablist">
+          <button class="source-tab active" data-source="主题创作" type="button">主题创作</button>
+          <button class="source-tab" data-source="文档转PPT" type="button">文档转 PPT</button>
+          <button class="source-tab" data-source="旧PPT改版" type="button">旧 PPT 改版</button>
+        </div>
+        <input id="sourceType" type="hidden" value="主题创作" />
 
         <div class="grid">
           <label class="field">
@@ -42,7 +93,7 @@
               <option value="竞赛答辩">竞赛答辩</option>
               <option value="工作总结">工作总结</option>
               <option value="项目提案">项目提案</option>
-              <option value="主题班会">主题班会</option>
+              <option value="论文答辩">论文答辩</option>
               <option value="产品发布">产品发布</option>
             </select>
           </label>
@@ -60,104 +111,193 @@
 
           <label class="field full">
             <span>主题</span>
-            <input id="topic" type="text" placeholder="例如：新能源汽车行业趋势分析" />
+            <input id="topic" type="text" placeholder="例如：AI教育产品融资路演" />
+          </label>
+
+          <label class="field full">
+            <span>资料 / 文件（可选）</span>
+            <input id="sourceFile" type="file" accept=".txt,.md,.pdf,.docx,.pptx" />
+            <small class="field-note">v1.2 不上传文件，只记录文件名并写入 Agent 指令；真实解析将在后续版本接入。</small>
           </label>
 
           <label class="field full">
             <span>核心目标</span>
-            <textarea id="goal" rows="3" placeholder="例如：让老师快速理解行业现状、关键数据和未来趋势"></textarea>
+            <textarea id="goal" rows="3" placeholder="例如：让投资人快速理解市场机会、产品差异化与商业模式"></textarea>
           </label>
 
           <label class="field">
             <span>目标受众</span>
-            <input id="audience" type="text" placeholder="例如：大学老师 / 投资人 / 客户" />
+            <input id="audience" type="text" placeholder="例如：早期投资人 / 老师 / 管理层" />
           </label>
 
           <label class="field">
             <span>视觉风格</span>
             <select id="style">
-              <option value="高端简约、信息清晰、专业">高端简约</option>
-              <option value="深色科技感、未来感、强视觉冲击">深色科技</option>
-              <option value="商务蓝灰、克制专业、咨询公司风格">商务咨询</option>
-              <option value="杂志编辑感、留白充足、排版高级">杂志编辑</option>
-              <option value="活力年轻、适合校园展示">青春校园</option>
-              <option value="数据可视化优先、图表清晰">数据报告</option>
+              <option value="高端简约、编辑感、留白充足">高端简约</option>
+              <option value="商务咨询、蓝灰配色、数据优先">商务咨询</option>
+              <option value="深色科技、未来感、强视觉对比">深色科技</option>
+              <option value="杂志编辑、大图、克制排版">杂志编辑</option>
+              <option value="苹果发布会感、参数突出、高对比">发布会风</option>
+              <option value="学术专业、图表清晰、严谨克制">学术答辩</option>
             </select>
           </label>
 
           <label class="field full">
             <span>必须保留的信息</span>
-            <textarea id="mustKeep" rows="3" placeholder="例如：已有数据、标题、品牌名、学校名、不能修改的文字"></textarea>
+            <textarea id="mustKeep" rows="3" placeholder="例如：已有数据、品牌名、学校名、图表、不能改动的文字"></textarea>
           </label>
 
           <label class="field full">
             <span>补充要求</span>
-            <textarea id="extra" rows="3" placeholder="例如：不要AI感、少用大段文字、每页突出一个结论、适合16:9"></textarea>
+            <textarea id="extra" rows="3" placeholder="例如：不要AI味；每页只表达一个结论；图表必须能改数据；不要整页图片"></textarea>
           </label>
         </div>
 
-        <button id="generateBtn" class="primary-button" type="button">生成提示词</button>
+        <div class="editable-options">
+          <div class="editable-title">可编辑输出要求</div>
+          <label><input id="editableText" type="checkbox" checked /> 文字必须可编辑</label>
+          <label><input id="editableCharts" type="checkbox" checked /> 图表数据可修改</label>
+          <label><input id="editableShapes" type="checkbox" checked /> 模块 / 形状可移动</label>
+          <label><input id="avoidImageDeck" type="checkbox" checked /> 禁止整页截图式 PPT</label>
+        </div>
+
+        <button id="generateBtn" class="primary-button" type="button">生成「高颜值可编辑 PPT」制作方案</button>
       </section>
 
       <section class="panel result-panel">
         <div class="section-head">
-          <div>
-            <span class="step">02</span>
-            <h2>生成结果</h2>
-          </div>
+          <div><span class="step">02</span><h2>生成结果</h2></div>
           <div class="actions">
-            <button id="shortBtn" class="chip active" type="button">完整版</button>
+            <button id="fullBtn" class="chip active" type="button">完整制作指令</button>
             <button id="compactBtn" class="chip" type="button">精简版</button>
           </div>
         </div>
 
         <div id="emptyState" class="empty-state">
           <div class="empty-icon">↗</div>
-          <p>填写左侧需求后，生成一份结构清晰、可直接复制给 AI 的 PPT 提示词。</p>
+          <p>填写需求后，将得到一份强调“高颜值 + 真可编辑 + 可验收”的制作指令。</p>
         </div>
 
         <div id="resultWrap" class="result-wrap hidden">
           <pre id="resultText"></pre>
           <div class="result-footer">
             <span id="charCount">0 字符</span>
-            <button id="copyBtn" class="copy-button" type="button">复制提示词</button>
+            <button id="copyBtn" class="copy-button" type="button">复制制作指令</button>
           </div>
         </div>
       </section>
     </main>
 
-    <section class="examples">
-      <div class="section-head examples-head">
-        <div>
-          <span class="step">03</span>
-          <h2>快速示例</h2>
-        </div>
+    <section class="routes" id="routes">
+      <div class="section-title-row">
+        <div><span class="step">03</span><div><div class="eyebrow">EDITABLE ROUTES</div><h2>想直接得到可编辑 PPT？按你的使用方式选路线。</h2></div></div>
+        <p>“可编辑”不是一句营销词。优先选择能导出真实 PPTX、文本与图形仍可操作的路线。</p>
       </div>
-      <div class="example-grid">
-        <button class="example-card" data-example="business">
-          <span>商业路演</span>
-          <strong>AI 教育产品融资 Deck</strong>
-          <small>10 页 · 商务咨询风</small>
-        </button>
-        <button class="example-card" data-example="class">
-          <span>课程汇报</span>
-          <strong>低空经济行业分析</strong>
-          <small>12 页 · 数据报告风</small>
-        </button>
-        <button class="example-card" data-example="contest">
-          <span>竞赛答辩</span>
-          <strong>校园智能服务项目</strong>
-          <small>15 页 · 科技感</small>
-        </button>
+
+      <div class="route-grid">
+        <article class="route-card featured">
+          <div class="route-top"><span class="route-label">最省事</span><b>01</b></div>
+          <h3>Google Slides + Gemini</h3>
+          <p>适合已经有 Gemini / Google Slides AI 功能入口的人：直接在 Slides 环境里生成，再继续改文字与版式。</p>
+          <ul><li>不用折腾本地依赖</li><li>适合学生 / 职场快速出稿</li><li>是否可用取决于账号与地区功能开放</li></ul>
+          <a href="https://workspace.google.com/products/slides/" target="_blank" rel="noreferrer">打开 Google Slides ↗</a>
+        </article>
+
+        <article class="route-card">
+          <div class="route-top"><span class="route-label">原生可编辑</span><b>02</b></div>
+          <h3>PPT Master</h3>
+          <p>强调原生 PowerPoint 结构：文字、形状、图表不是整页截图，适合对返工与交付要求高的场景。</p>
+          <ul><li>可编辑 PPTX</li><li>支持文档输入与模板参考</li><li>适合本地工作流</li></ul>
+          <a href="https://github.com/hugohe3/ppt-master" target="_blank" rel="noreferrer">查看 GitHub ↗</a>
+        </article>
+
+        <article class="route-card">
+          <div class="route-top"><span class="route-label">本地创作</span><b>03</b></div>
+          <h3>Oh My PPT</h3>
+          <p>可从主题、文档或旧 PPTX 开始，生成后继续可视化编辑，再导出可编辑 PPTX。</p>
+          <ul><li>旧 PPT 模板可继续改</li><li>本地优先</li><li>支持对话式修改</li></ul>
+          <a href="https://github.com/arcsin1/oh-my-ppt" target="_blank" rel="noreferrer">查看 GitHub ↗</a>
+        </article>
       </div>
     </section>
 
-    <footer>
-      <span>PPT Prompt Lab · MVP v1.0</span>
-      <span>Built for fast validation</span>
-    </footer>
-  </div>
+    <section class="skills" id="skills">
+      <div class="section-title-row">
+        <div><span class="step">04</span><div><div class="eyebrow">PPT SKILLS</div><h2>如果你用 Codex / Claude Code，把“做 PPT”变成一套 Skill。</h2></div></div>
+        <p>Skill 的价值不是多写一段提示词，而是把叙事、构建、返工、QA 固化成可重复执行的流程。</p>
+      </div>
 
+      <div class="skill-grid">
+        <article class="skill-card skill-card-dark">
+          <div class="skill-card-head"><div><span class="skill-badge">首推 · 浏览器可编辑</span><h3>Dashi PPT Skill</h3></div><span class="skill-no">01</span></div>
+          <p>把文档交给 Agent，生成后可以在浏览器里继续改，再导出 PPTX。</p>
+          <div class="skill-stats"><span><b>12</b>主题</span><span><b>1020</b>版式页</span><span><b>PPTX</b>导出</span></div>
+          <div class="command-box">
+            <div class="command-head"><span>安装 / 更新</span><button class="mini-copy" data-copy-target="dashiCommand" type="button">复制</button></div>
+            <code id="dashiCommand">npx dashi-ppt-skill@latest</code>
+          </div>
+          <div class="skill-actions"><a href="https://github.com/chuspeeism/dashi-ppt-skill" target="_blank" rel="noreferrer">查看项目 ↗</a><button class="skill-use-btn" data-skill="dashi" type="button">生成使用指令</button></div>
+        </article>
+
+        <article class="skill-card">
+          <div class="skill-card-head"><div><span class="skill-badge skill-badge-light">叙事 → 构建 → 返工</span><h3>Slides Skill Pack</h3></div><span class="skill-no">02</span></div>
+          <p>先做 narrative，再 build deck，最后跑 slop-check；适合追求“不是 AI 套模板感”的完整流程。</p>
+          <div class="command-box">
+            <div class="command-head"><span>Codex 安装</span><button class="mini-copy" data-copy-target="slidesCommand" type="button">复制</button></div>
+            <code id="slidesCommand">codex plugin marketplace add jameshemson/slides
+codex plugin install slides/slides</code>
+          </div>
+          <div class="skill-actions"><a href="https://github.com/jameshemson/slides" target="_blank" rel="noreferrer">查看项目 ↗</a><button class="skill-use-btn" data-skill="slides" type="button">生成使用指令</button></div>
+        </article>
+
+        <article class="skill-card">
+          <div class="skill-card-head"><div><span class="skill-badge skill-badge-light">QA 层</span><h3>slide-skill</h3></div><span class="skill-no">03</span></div>
+          <p>用“一页一个重点、结构、简洁”约束 Agent，在交付前专门检查信息过载与 AI 味。</p>
+          <div class="command-box">
+            <div class="command-head"><span>建议用法</span><button class="mini-copy" data-copy-target="qualityCommand" type="button">复制</button></div>
+            <code id="qualityCommand">请用 slide-skill 的原则逐页检查这份 PPT：一页一个重点，信息层级清晰，不为装饰而装饰。</code>
+          </div>
+          <div class="skill-actions"><a href="https://github.com/hunkim/slide-skill" target="_blank" rel="noreferrer">查看项目 ↗</a><button class="skill-use-btn" data-skill="quality" type="button">生成使用指令</button></div>
+        </article>
+      </div>
+
+      <div class="skill-builder">
+        <div><div class="eyebrow">SKILL HANDOFF</div><h3>一键生成 Agent 执行指令</h3><p>自动带入上面填写的主题、受众、风格和可编辑要求。</p></div>
+        <div class="skill-builder-controls">
+          <label class="field"><span>你的 Agent</span><select id="agentSelect"><option>Codex</option><option>Claude Code</option><option>Cursor</option><option>其他本地 Agent</option></select></label>
+          <label class="field"><span>选择 Skill</span><select id="skillSelect"><option value="dashi">Dashi PPT Skill</option><option value="slides">Slides Skill Pack</option><option value="quality">slide-skill</option></select></label>
+          <button id="skillPromptBtn" class="primary-button" type="button">生成 Agent 指令</button>
+        </div>
+        <div id="skillPromptWrap" class="skill-prompt-wrap hidden"><pre id="skillPromptText"></pre><button id="copySkillPromptBtn" class="copy-button" type="button">复制 Agent 指令</button></div>
+      </div>
+    </section>
+
+    <section class="qa" id="qa">
+      <div class="section-title-row">
+        <div><span class="step">05</span><div><div class="eyebrow">EDITABILITY QA</div><h2>别被“可编辑”三个字骗了：导出后随机抽 3 页。</h2></div></div>
+        <p>如果只是整页图片，即使文件后缀是 .pptx，也不等于真正可编辑。</p>
+      </div>
+      <div class="qa-grid">
+        <article><b>TEXT</b><h3>标题文字能直接改吗？</h3><p>双击标题或正文，应该能直接修改字符、字号和颜色。</p></article>
+        <article><b>CHART</b><h3>图表数据能继续改吗？</h3><p>至少要能修改图表数据或替换图表，不应该只是静态截图。</p></article>
+        <article><b>BLOCK</b><h3>一个模块能整块移动吗？</h3><p>卡片、图形、文本框应该仍是独立对象，而不是整页合成图片。</p></article>
+      </div>
+      <div class="qa-rule"><strong>简单规则：</strong>随机抽 3 页，这三项里至少大多数能通过，再把它叫“可编辑 PPT”。</div>
+    </section>
+
+    <section class="examples">
+      <div class="section-head examples-head"><div><span class="step">06</span><h2>快速示例</h2></div></div>
+      <div class="example-grid">
+        <button class="example-card" data-example="business"><span>商业路演</span><strong>AI 教育产品融资 Deck</strong><small>10 页 · 商务咨询风 · 真可编辑</small></button>
+        <button class="example-card" data-example="class"><span>课程汇报</span><strong>低空经济行业分析</strong><small>12 页 · 数据报告风 · 图表可改</small></button>
+        <button class="example-card" data-example="contest"><span>竞赛答辩</span><strong>校园智能服务项目</strong><small>15 页 · 科技感 · 模块可移动</small></button>
+      </div>
+    </section>
+
+    <div class="third-party-note"><strong>说明</strong><span>本站当前是工作流与指令生成器，不直接托管第三方模型或开源 Skill。外部工具的功能、账号资格、许可证与依赖以各自官方页面为准。</span></div>
+
+    <footer><span>PPT Prompt Lab · MVP v1.2</span><span>Brief → Design → Editable PPTX → QA</span></footer>
+  </div>
   <script src="app.js"></script>
 </body>
 </html>
