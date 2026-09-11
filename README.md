@@ -1,70 +1,51 @@
-# PPT Prompt Lab
+# 页间（PPT Prompt Lab）
 
-一个无需后端、无需 API Key 的 PPT 提示词生成器 MVP。
+页间是一个 Next.js Web App，核心流程是需求理解、资料读取、资料研究、来源记录、叙事规划与 Storyboard 确认。
 
-## 当前功能
+## 本地开发
 
-- 选择使用场景
-- 输入主题、目标、受众、视觉风格
-- 生成完整版 / 精简版 PPT 提示词
-- 一键复制
-- 内置 3 个示例
-- 响应式设计，可直接部署到 GitHub Pages
-
-## 本地运行
-
-直接双击 `index.html` 即可打开。
-
-也可以使用任意静态服务器，例如：
+项目要求 Node.js 24，并将 npm cache、`TEMP` 和 `TMP` 指向 `D:\AIProjects\_cache`。配置完成后运行：
 
 ```bash
-python -m http.server 8000
+npm run dev
 ```
 
-然后访问：
+运行模式由 `APP_ENV` 控制，可选 `development`、`preview`、`production`。研究模式由 `RESEARCH_MODE` 控制，可选 `mock`、`real`。`real` 模式必须配置服务端 `OPENAI_API_KEY`，否则返回 `RESEARCH_PROVIDER_NOT_CONFIGURED`，不会静默改用样例数据。
+
+## Cloud Preview（Render）
+
+Cloud Preview 仅用于验证公网 Next.js 流程，不是生产部署：
+
+1. 将确认过的代码提交到 GitHub。
+2. 在 Render Dashboard 选择 **New Web Service**。
+3. 连接本项目 GitHub Repository，并选择 `main` 分支。
+4. Runtime 选择 **Node**。
+5. Build Command 填写 `npm install && npm run build`。
+6. Start Command 填写 `npm start`。
+7. Health Check Path 填写 `/api/health`。
+8. 配置以下环境变量：
 
 ```text
-http://localhost:8000
+NODE_VERSION=24
+APP_ENV=preview
+RESEARCH_MODE=mock
 ```
 
-## GitHub Pages 部署
+Preview 暂时使用 Render 实例的 ephemeral storage：Project JSON 保存于 `data/local`，上传文件保存于 `data/uploads`。重新部署、实例重启或平台回收实例后，Project 和 Upload 都可能丢失；多实例之间也不会共享数据。不要把该模式作为生产持久化方案。
 
-1. 在 GitHub 新建一个公开仓库，例如 `ppt-prompt-lab`
-2. 上传本目录中的：
-   - `index.html`
-   - `style.css`
-   - `app.js`
-3. 进入仓库 `Settings`
-4. 打开 `Pages`
-5. 在 `Build and deployment` 中选择：
-   - Source: `Deploy from a branch`
-   - Branch: `main`
-   - Folder: `/ (root)`
-6. 保存后，GitHub 会生成公网访问地址
+当 `APP_ENV=production` 时，当前代码会拒绝启用本地 ProjectRepository、LocalFileStorage 和本地 Job Runner；`RESEARCH_MODE=mock` 同样会被拒绝。正式云存储、数据库和任务系统属于后续阶段。
 
-## MVP 验证目标
+## 上传范围
 
-第一阶段不要急着接大模型 API，也不要先做登录、支付和复杂后台。
+- 支持文字型 PDF、DOCX、PPTX、TXT 和 MD。
+- 单个文件最大 20MB，服务端继续校验扩展名、MIME 和保存路径。
+- Cloud Preview 的上传内容不会长期保存。
 
-先验证：
-- 是否有人愿意用
-- 哪类 PPT 场景使用最多
-- 用户生成后是否会复制
-- 用户愿不愿意为高质量模板或高级版本付费
+## 当前边界
 
-建议首批指标：
-- 20 个真实用户
-- 5 个用户访谈
-- 记录至少 10 次真实使用反馈
-- 测试 3 次付费意愿
+- 不生成 PPTX
+- 不搜索或编排图片
+- 不包含账号、支付或在线 PowerPoint 编辑器
+- 不提供生产级持久化或分布式任务执行
 
-## 下一阶段候选
-
-只有当第一阶段出现真实使用后，再考虑：
-- AI 自动扩写
-- 行业模板库
-- 账号系统
-- 收藏历史
-- 付费模板
-- 小红书渠道落地页
-- 数据统计
+Sprint 1 完整快照位于 `snapshots/sprint1-before-nextjs`。`legacy-static` 仅保留 Sprint 1 历史原型；根目录旧 `index.html`、`style.css` 和 `app.js` 不属于 Next.js 正式入口，也不会干扰 `next build` 或 `next start`。

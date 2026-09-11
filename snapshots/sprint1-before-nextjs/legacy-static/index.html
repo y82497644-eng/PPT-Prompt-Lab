@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="PPT Prompt Lab - 快速生成可直接用于AI制作PPT的高质量提示词" />
+  <title>PPT Prompt Lab</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="page-shell">
+    <header class="hero">
+      <div class="brand-row">
+        <div class="brand-mark">P</div>
+        <div>
+          <div class="eyebrow">PPT PROMPT LAB</div>
+          <h1>把模糊需求，变成可直接交给 AI 的 PPT 提示词。</h1>
+        </div>
+      </div>
+      <p class="hero-copy">
+        适合课程汇报、商业路演、竞赛答辩、工作总结与方案提案。
+        无需注册，不调用外部 API，填写需求即可生成。
+      </p>
+    </header>
+
+    <main class="workspace">
+      <section class="panel form-panel">
+        <div class="section-head">
+          <div>
+            <span class="step">01</span>
+            <h2>输入你的 PPT 需求</h2>
+          </div>
+          <button id="resetBtn" class="text-button" type="button">清空</button>
+        </div>
+
+        <div class="grid">
+          <label class="field">
+            <span>使用场景</span>
+            <select id="scene">
+              <option value="课程汇报">课程汇报</option>
+              <option value="商业路演">商业路演</option>
+              <option value="竞赛答辩">竞赛答辩</option>
+              <option value="工作总结">工作总结</option>
+              <option value="项目提案">项目提案</option>
+              <option value="主题班会">主题班会</option>
+              <option value="产品发布">产品发布</option>
+            </select>
+          </label>
+
+          <label class="field">
+            <span>PPT 页数</span>
+            <select id="pages">
+              <option value="8">8 页</option>
+              <option value="10" selected>10 页</option>
+              <option value="12">12 页</option>
+              <option value="15">15 页</option>
+              <option value="20">20 页</option>
+            </select>
+          </label>
+
+          <label class="field full">
+            <span>主题</span>
+            <input id="topic" type="text" placeholder="例如：新能源汽车行业趋势分析" />
+          </label>
+
+          <label class="field full">
+            <span>核心目标</span>
+            <textarea id="goal" rows="3" placeholder="例如：让老师快速理解行业现状、关键数据和未来趋势"></textarea>
+          </label>
+
+          <label class="field">
+            <span>目标受众</span>
+            <input id="audience" type="text" placeholder="例如：大学老师 / 投资人 / 客户" />
+          </label>
+
+          <label class="field">
+            <span>视觉风格</span>
+            <select id="style">
+              <option value="高端简约、信息清晰、专业">高端简约</option>
+              <option value="深色科技感、未来感、强视觉冲击">深色科技</option>
+              <option value="商务蓝灰、克制专业、咨询公司风格">商务咨询</option>
+              <option value="杂志编辑感、留白充足、排版高级">杂志编辑</option>
+              <option value="活力年轻、适合校园展示">青春校园</option>
+              <option value="数据可视化优先、图表清晰">数据报告</option>
+            </select>
+          </label>
+
+          <label class="field full">
+            <span>必须保留的信息</span>
+            <textarea id="mustKeep" rows="3" placeholder="例如：已有数据、标题、品牌名、学校名、不能修改的文字"></textarea>
+          </label>
+
+          <label class="field full">
+            <span>补充要求</span>
+            <textarea id="extra" rows="3" placeholder="例如：不要AI感、少用大段文字、每页突出一个结论、适合16:9"></textarea>
+          </label>
+        </div>
+
+        <button id="generateBtn" class="primary-button" type="button">生成提示词</button>
+      </section>
+
+      <section class="panel result-panel">
+        <div class="section-head">
+          <div>
+            <span class="step">02</span>
+            <h2>生成结果</h2>
+          </div>
+          <div class="actions">
+            <button id="shortBtn" class="chip active" type="button">完整版</button>
+            <button id="compactBtn" class="chip" type="button">精简版</button>
+          </div>
+        </div>
+
+        <div id="emptyState" class="empty-state">
+          <div class="empty-icon">↗</div>
+          <p>填写左侧需求后，生成一份结构清晰、可直接复制给 AI 的 PPT 提示词。</p>
+        </div>
+
+        <div id="resultWrap" class="result-wrap hidden">
+          <pre id="resultText"></pre>
+          <div class="result-footer">
+            <span id="charCount">0 字符</span>
+            <button id="copyBtn" class="copy-button" type="button">复制提示词</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <section class="examples">
+      <div class="section-head examples-head">
+        <div>
+          <span class="step">03</span>
+          <h2>快速示例</h2>
+        </div>
+      </div>
+      <div class="example-grid">
+        <button class="example-card" data-example="business">
+          <span>商业路演</span>
+          <strong>AI 教育产品融资 Deck</strong>
+          <small>10 页 · 商务咨询风</small>
+        </button>
+        <button class="example-card" data-example="class">
+          <span>课程汇报</span>
+          <strong>低空经济行业分析</strong>
+          <small>12 页 · 数据报告风</small>
+        </button>
+        <button class="example-card" data-example="contest">
+          <span>竞赛答辩</span>
+          <strong>校园智能服务项目</strong>
+          <small>15 页 · 科技感</small>
+        </button>
+      </div>
+    </section>
+
+    <footer>
+      <span>PPT Prompt Lab · MVP v1.0</span>
+      <span>Built for fast validation</span>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+{
+  "name": "yejian-ppt-prompt-lab",
+  "version": "2.0.0",
+  "private": true,
+  "engines": {
+    "node": ">=24 <25"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "fixtures": "node --import tsx tests/fixtures/generate-fixtures.ts",
+    "test": "npm run fixtures && node --import tsx --test tests/**/*.test.ts"
+  },
+  "dependencies": {
+    "fflate": "^0.8.3",
+    "next": "^16.0.0",
+    "openai": "^6.0.0",
+    "pdfjs-dist": "^6.3.289",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "zod": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "eslint": "^9.0.0",
+    "eslint-config-next": "^16.0.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.9.0"
+  }
+}

@@ -5,3 +5,14 @@ Thumbs.db
 # Editors
 .vscode/
 .idea/
+
+# Next.js and local development
+.next/
+node_modules/
+*.tsbuildinfo
+.env*
+!.env.example
+data/local/*.json
+data/uploads/*
+!data/local/.gitkeep
+!data/uploads/.gitkeep
